@@ -1,6 +1,6 @@
-# korean-project README
+# hello-world README
 
-This is the README for your extension "korean-project". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "hello-world". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 

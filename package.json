@@ -1,7 +1,7 @@
 {
-    "name": "korean-project",
-    "displayName": "korean-project",
-    "description": "English to Korean",
+    "name": "korean-translator",
+    "displayName": "korean-translator",
+    "description": "",
     "version": "0.0.1",
     "engines": {
         "vscode": "^1.29.0"
