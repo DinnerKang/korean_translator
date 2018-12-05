@@ -10,14 +10,23 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:extension.translateKorean"
     ],
     "main": "./out/extension",
     "contributes": {
+        "menus":{
+            "editor/context": [
+                {
+                    "command": "extension.translateKorean",
+                    "when": "editorHasSelection"
+                }
+            ]
+        },
         "commands": [
             {
-                "command": "extension.sayHello",
-                "title": "Hello World"
+                "command": "extension.translateKorean",
+                "title": "Translator",
+                "when": "editorHasSelection"
             }
         ]
     },
