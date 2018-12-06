@@ -6,20 +6,8 @@ import {
     ExtensionContext,
     Range,
 } from 'vscode';
-import { Translator } from "./translator";
 import 'isomorphic-fetch';
 
-
-import { Observable } from "rxjs/Observable";
-import { pipe } from "rxjs/Rx";
-import { from } from "rxjs/observable/from";
-import { filter, map, mergeMap, retry, window } from "rxjs/operators";
-
-export interface resultT {
-    source: string;
-    target: string;
-    text: string;
-}
 
 export function activate(context: ExtensionContext) {
 
@@ -27,7 +15,6 @@ export function activate(context: ExtensionContext) {
     let disposable = commands.registerCommand('extension.translateKorean', () => {
 
         const editor = vswindow.activeTextEditor;
-        const translator = new Translator();
         console.log('vscode의 글씨들', editor);
         if (!editor) {
             return;
@@ -43,12 +30,13 @@ export function activate(context: ExtensionContext) {
             console.log('text 선택좀...');
         }
         console.log('text:', text);
-        vswindow.showQuickPick(translator.getText(text), {
+        vswindow.showQuickPick(testCode(), {
             matchOnDescription: true,
             placeHolder: '원하는 단어를 선택하세요 !!'
         }).then(
-            () => {
-                console.log('변경완료 (라고 만들고 싶...)');
+            transText => {
+                console.log('transText', transText);
+                editor.edit(edit => edit.replace(selection_range, String(transText)));
             }
         );
 
@@ -73,12 +61,14 @@ export function activate(context: ExtensionContext) {
                         console.log('res-----', res);
                         return res.json();
                     }
-                ).then( resJson => {
+                ).then(resJson => {
                     console.log(resJson);
+                    return resJson.translated_text[0];
                 })
                 .catch(err => console.log(err));
         }
-        testCode();
+        // testCode();
+        console.log(testCode());
     });
 
     context.subscriptions.push(disposable);
