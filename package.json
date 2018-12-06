@@ -14,7 +14,7 @@
     ],
     "main": "./out/extension",
     "contributes": {
-        "menus":{
+        "menus": {
             "editor/context": [
                 {
                     "command": "extension.translateKorean",
@@ -25,7 +25,7 @@
         "commands": [
             {
                 "command": "extension.translateKorean",
-                "title": "Translator",
+                "title": "영어로 바꾸기 !",
                 "when": "editorHasSelection"
             }
         ]
@@ -43,5 +43,9 @@
         "tslint": "^5.8.0",
         "@types/node": "^8.10.25",
         "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "isomorphic-fetch": "^2.2.1",
+        "rxjs": "^6.3.3"
     }
 }
