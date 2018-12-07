@@ -1,65 +1,53 @@
-# hello-world README
+# 한 -> 영 번역기
 
-This is the README for your extension "hello-world". After writing up a brief description, we recommend including the following sections.
+변수, 함수, 클래스 이름이 영어로 생각 안날때 편하게 번역해주는 플러그인입니다.
+
+현재는 카카오 번역으로 되며 추후... 업데이트 하겠습니다.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+바로 번역하기 누르는 순간
 
-For example if there is an image subfolder under your extension project workspace:
+![translate](/asset/translate.png)
 
-\!\[feature X\]\(images/feature-x.png\)
+짜잔 하고 번역합니다.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+![translate](/asset/translate_1.png)
 
-## Requirements
+Kakao API 를 이용해 만들었으며
+일일허용량 5만 단어 입니다.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+배포 후 허용량이 자주 초과되면 그 후에 수정을...해보도록하겠습니다.
 
-## Extension Settings
+오픈소스 기여 목적으로 만들었습니다.
+악용은 자제 부탁드릴게요 !
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
 
-For example:
+## 제작자
 
-This extension contributes the following settings:
+#### 강전혁
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+- Email : jenhyuk0318@gmail.com
+- Git : [https://github.com/DinnerKang](https://github.com/DinnerKang)
+- Blog : [https://kdinner.tistory.com](https://kdinner.tistory.com)
 
-## Known Issues
+## 도움을 주신분
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+##### 로고 제작 : 김수지 디자이너 (sooji901231@naver.com)
 
-## Release Notes
+## 참고 자료
 
-Users appreciate release notes as you update your extension.
+#### Git 코드 조각
+[https://github.com/sculove/translator](https://github.com/sculove/translator)
+[https://github.com/simple-factory/simple-translate/blob/5f69e031fadb3b08a9e6d236d405a35d6b1f5490/Translate.js](https://github.com/simple-factory/simple-translate/blob/5f69e031fadb3b08a9e6d236d405a35d6b1f5490/Translate.js)
+[https://github.com/matthew-andrews/isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch)
+[https://www.npmjs.com/package/electron-fetch](https://www.npmjs.com/package/electron-fetch)
 
-### 1.0.0
+#### Kakao API
+[https://developers.kakao.com/docs/restapi/translation](https://developers.kakao.com/docs/restapi/translation)
 
-Initial release of ...
+## 수정 사항
 
-### 1.0.1
+##### 0.0.1
 
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+- 초기 버전 0.0.1
