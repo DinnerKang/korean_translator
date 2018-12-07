@@ -39,8 +39,11 @@ Kakao API 를 이용해 만들었으며
 
 #### Git 코드 조각
 [https://github.com/sculove/translator](https://github.com/sculove/translator)
+
 [https://github.com/simple-factory/simple-translate/blob/5f69e031fadb3b08a9e6d236d405a35d6b1f5490/Translate.js](https://github.com/simple-factory/simple-translate/blob/5f69e031fadb3b08a9e6d236d405a35d6b1f5490/Translate.js)
+
 [https://github.com/matthew-andrews/isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch)
+
 [https://www.npmjs.com/package/electron-fetch](https://www.npmjs.com/package/electron-fetch)
 
 #### Kakao API
