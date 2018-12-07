@@ -1,7 +1,7 @@
 {
     "name": "korean-translator",
-    "displayName": "korean-translator",
-    "description": "",
+    "displayName": "Korean-translator",
+    "description": "한->영 번역기",
     "version": "0.0.1",
     "engines": {
         "vscode": "^1.29.0"
@@ -9,6 +9,21 @@
     "categories": [
         "Other"
     ],
+    "keywords": [
+        "korean",
+        "한국어",
+        "translator",
+        "translate",
+        "translation"
+    ],
+    "bugs": {
+        "url": "https://github.com/DinnerKang/korean_translator/issues",
+        "email": "jenhyuk0318@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DinnerKang/korean_translator.git"
+    },
     "activationEvents": [
         "onCommand:extension.translateKorean"
     ],
@@ -45,6 +60,7 @@
         "@types/mocha": "^2.2.42"
     },
     "dependencies": {
+        "event-stream": "^4.0.1",
         "isomorphic-fetch": "^2.2.1"
     }
 }

@@ -30,18 +30,12 @@ export function activate(context: ExtensionContext) {
             console.log('text 선택좀...');
         }
         console.log('text:', text);
-        vswindow.showQuickPick(testCode(), {
-            matchOnDescription: true,
-            placeHolder: '원하는 단어를 선택하세요 !!'
-        }).then(
-            transText => {
-                console.log('transText', transText);
-                editor.edit(edit => edit.replace(selection_range, String(transText)));
-            }
-        );
+
+        
+        translationText(editor);
 
 
-        function testCode() {
+        function translationText(editor: any) {
             console.log('-------testCode--------');
 
             const src_lang = 'kr';
@@ -59,21 +53,26 @@ export function activate(context: ExtensionContext) {
                 }).then(
                     (res: Response) => {
                         console.log('res-----', res);
-                        return res.json();
+                        if (res.status == 200) {
+                            console.log('성공');
+                            return res.json();
+                        } else {
+                            console.log('실패');
+                            vswindow.showInformationMessage('일일허용량을 넘겼습니다. 아마.. 수정하겠습니다.');
+                        }
                     }
                 ).then(resJson => {
                     console.log(resJson);
+                    editor.edit((edit: any) => edit.replace(selection_range, String(resJson.translated_text[0])));
                     return resJson.translated_text[0];
                 })
                 .catch(err => console.log(err));
         }
-        // testCode();
-        console.log(testCode());
+
     });
 
     context.subscriptions.push(disposable);
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {
 }
