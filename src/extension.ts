@@ -7,11 +7,42 @@ import {
     Range,
 } from 'vscode';
 import 'isomorphic-fetch';
+var admin = require('firebase-admin');
+var serviceAccount = require('../translator-c4119-firebase-adminsdk-ft76z-126df85c6a');
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://translator-c4119.firebaseio.com",
+});
+var db = admin.database();
+var ref = db.ref('translate');
+var successRef = ref.child('success');
+var errorRef = ref.child('error');
 
 
 export function activate(context: ExtensionContext) {
+    var date = new Date();
 
-
+    var year = String(date.getFullYear());
+    var month = String(date.getMonth());
+    if (Number(month) < 10) {
+        month = '0' + month;
+    }
+    var day = String(date.getDate());
+    if (Number(day) < 10) {
+        day = '0' + day;
+    }
+    var hour = String(date.getHours());
+    if (Number(hour) < 10) {
+        hour = '0' + hour;
+    }
+    
+    var minutes = String(date.getMinutes());
+    if (Number(minutes) < 10) {
+        minutes = '0' + hour;
+    }
+    var time = year + month + day + hour + minutes;
+    console.log(time);
+    
     let disposable = commands.registerCommand('extension.translateKorean', () => {
 
         const editor = vswindow.activeTextEditor;
@@ -23,21 +54,15 @@ export function activate(context: ExtensionContext) {
 
         console.log('select 된거 정보', selections);
         const selection_range = new Range(selections.start, selections.end);
-        console.log('select 된 라인 정보', selection_range);
-
         const text = editor.document.getText(selection_range);
         if (!text) {
             console.log('text 선택좀...');
         }
         console.log('text:', text);
 
-
         translationText(editor);
 
-
         function translationText(editor: any) {
-            console.log('-------testCode--------');
-
             const src_lang = 'kr';
             const target_lang = 'en';
             let query = text;
@@ -56,10 +81,14 @@ export function activate(context: ExtensionContext) {
                         if (res.status == 200) {
                             console.log('성공');
                             return res.json();
-                        } else if (res.status == 503) {
+                        } else {
                             console.log('실패');
+                            errorRef.push({
+                                Error: res.json(),
+                                Time: time
+                            });
                             vswindow.showInformationMessage('카카오에 문제가 있습니다.');
-                        } 
+                        }
                     }
                 ).then(resJson => {
                     console.log(resJson);
@@ -67,17 +96,21 @@ export function activate(context: ExtensionContext) {
                         console.log('번역 불가');
                         resJson.translated_text[0] = ['번역이 불가능합니다 ㅠ'];
                     }
-                    console.log(resJson.translated_text[0]);
-
+                    console.log(resJson.translated_text[0][0]);
+                    successRef.push({
+                        Korean: text,
+                        English: resJson.translated_text[0][0],
+                        Time: time
+                    });
                     editor.edit((edit: any) => edit.replace(selection_range, String(resJson.translated_text[0])));
 
                     return resJson.translated_text[0];
                 })
                 .catch(err => {
-                    if(err.code === -10){
+                    if (err.code === -10) {
                         vswindow.showInformationMessage('API 허용량 초과입니다.');
                     }
-                    
+
                 });
         }
 

@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "public_resource": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}

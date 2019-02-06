@@ -63,6 +63,7 @@
     },
     "dependencies": {
         "event-stream": "^4.0.1",
+        "firebase-admin": "^7.0.0",
         "isomorphic-fetch": "^2.2.1",
         "npm": "^6.4.1",
         "vsce": "^1.53.2"
