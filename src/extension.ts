@@ -23,7 +23,7 @@ export function activate(context: ExtensionContext) {
     var date = new Date();
 
     var year = String(date.getFullYear());
-    var month = String(date.getMonth());
+    var month = String(date.getMonth() +1);
     if (Number(month) < 10) {
         month = '0' + month;
     }
