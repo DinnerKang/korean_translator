@@ -81,13 +81,6 @@ export function activate(context: ExtensionContext) {
                         if (res.status == 200) {
                             console.log('성공');
                             return res.json();
-                        } else {
-                            console.log('실패');
-                            errorRef.push({
-                                Error: res.json(),
-                                Time: time
-                            });
-                            vswindow.showInformationMessage('카카오에 문제가 있습니다.');
                         }
                     }
                 ).then(resJson => {
@@ -112,7 +105,8 @@ export function activate(context: ExtensionContext) {
                     }
                     console.log('실패');
                     errorRef.push({
-                        Error: err.json(),
+                        Error: query,
+                        code: err,
                         Time: time
                     });
                     vswindow.showInformationMessage('카카오에 문제가 있습니다.');
