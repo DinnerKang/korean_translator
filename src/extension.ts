@@ -23,7 +23,7 @@ export function activate(context: ExtensionContext) {
     var date = new Date();
 
     var year = String(date.getFullYear());
-    var month = String(date.getMonth() +1);
+    var month = String(date.getMonth() + 1);
     if (Number(month) < 10) {
         month = '0' + month;
     }
@@ -35,14 +35,14 @@ export function activate(context: ExtensionContext) {
     if (Number(hour) < 10) {
         hour = '0' + hour;
     }
-    
+
     var minutes = String(date.getMinutes());
     if (Number(minutes) < 10) {
         minutes = '0' + hour;
     }
     var time = year + month + day + hour + minutes;
     console.log(time);
-    
+
     let disposable = commands.registerCommand('extension.translateKorean', () => {
 
         const editor = vswindow.activeTextEditor;
@@ -110,7 +110,12 @@ export function activate(context: ExtensionContext) {
                     if (err.code === -10) {
                         vswindow.showInformationMessage('API 허용량 초과입니다.');
                     }
-
+                    console.log('실패');
+                    errorRef.push({
+                        Error: err.json(),
+                        Time: time
+                    });
+                    vswindow.showInformationMessage('카카오에 문제가 있습니다.');
                 });
         }
 
