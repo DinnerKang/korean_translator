@@ -93,6 +93,12 @@ function activate(context) {
                 if (err.code === -10) {
                     vscode_1.window.showInformationMessage('API 허용량 초과입니다.');
                 }
+                console.log('실패');
+                errorRef.push({
+                    Error: err.json(),
+                    Time: time
+                });
+                vscode_1.window.showInformationMessage('카카오에 문제가 있습니다.');
             });
         }
     });
