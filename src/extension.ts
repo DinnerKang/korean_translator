@@ -63,8 +63,8 @@ export function activate(context: ExtensionContext) {
         translationText(editor);
 
         function translationText(editor: any) {
-            const src_lang = 'kr';
-            const target_lang = 'en';
+            const src_lang = 'en';
+            const target_lang = 'kr';
             let query = text;
             const headers = {
                 'Authorization': 'KakaoAK 445700b780464ae5f43084791c7d6ca2',
