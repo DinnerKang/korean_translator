@@ -2,8 +2,8 @@
 
 변수, 함수, 클래스 이름이 영어로 생각 안날때 편하게 번역해주는 플러그인입니다.
 
-##### Firebase Database 와 연동이 되었으며, 번역한 영어 데이터를 수집 중 입니다.
-##### 원하시지 않으시면 삭제해주세요 ㅠ
+#### Firebase Database 와 연동이 되었으며, 번역한 영어 데이터를 수집 중 입니다.
+#### 원하시지 않으시면 삭제해주세요 ㅠ
 
 다음 릴리즈 때 수집한 데이터로 시각화한 홈페이지를 보여드리겠습니다.
 
@@ -54,7 +54,7 @@ Kakao API 를 이용해 만들었으며
 #### Kakao API
 [https://developers.kakao.com/docs/restapi/translation](https://developers.kakao.com/docs/restapi/translation)
 
-## 수정 사항
+## 릴리즈 노트
 
 ##### 0.0.1
 
@@ -81,3 +81,6 @@ Kakao API 를 이용해 만들었으며
 
 ##### 0.1.4
  - 특수문자 검색시 에러 발견 후 조치
+
+##### 0.1.5
+ - 카카오 API 틀린 부분 수정
