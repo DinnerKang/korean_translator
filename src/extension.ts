@@ -82,6 +82,13 @@ export function activate(context: ExtensionContext) {
                             console.log('성공');
                             return res.json();
                         }
+                        if(res.status == 400){
+                            errorRef.push({
+                                'Error': text,
+                                'Time': time
+                            });
+                            vswindow.showInformationMessage('단어에 특수문자가 들어갔습니다.');
+                        }
                     }
                 ).then(resJson => {
                     console.log(resJson);
@@ -99,17 +106,8 @@ export function activate(context: ExtensionContext) {
 
                     return resJson.translated_text[0];
                 })
-                .catch(err => {
-                    if (err.code === -10) {
-                        vswindow.showInformationMessage('API 허용량 초과입니다.');
-                    }
-                    console.log('실패');
-                    errorRef.push({
-                        Error: query,
-                        code: err,
-                        Time: time
-                    });
-                    vswindow.showInformationMessage('카카오에 문제가 있습니다.');
+                .catch((error: Error) => {
+                    console.log('실패', error);
                 });
         }
 

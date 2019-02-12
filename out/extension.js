@@ -66,13 +66,12 @@ function activate(context) {
                     console.log('성공');
                     return res.json();
                 }
-                else {
-                    console.log('실패');
+                if (res.status == 400) {
                     errorRef.push({
-                        Error: res.json(),
-                        Time: time
+                        'Error': text,
+                        'Time': time
                     });
-                    vscode_1.window.showInformationMessage('카카오에 문제가 있습니다.');
+                    vscode_1.window.showInformationMessage('단어에 특수문자가 들어갔습니다.');
                 }
             }).then(resJson => {
                 console.log(resJson);
@@ -89,16 +88,8 @@ function activate(context) {
                 editor.edit((edit) => edit.replace(selection_range, String(resJson.translated_text[0])));
                 return resJson.translated_text[0];
             })
-                .catch(err => {
-                if (err.code === -10) {
-                    vscode_1.window.showInformationMessage('API 허용량 초과입니다.');
-                }
-                console.log('실패');
-                errorRef.push({
-                    Error: err.json(),
-                    Time: time
-                });
-                vscode_1.window.showInformationMessage('카카오에 문제가 있습니다.');
+                .catch((error) => {
+                console.log('실패', error);
             });
         }
     });
