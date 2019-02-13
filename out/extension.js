@@ -49,8 +49,8 @@ function activate(context) {
         console.log('text:', text);
         translationText(editor);
         function translationText(editor) {
-            const src_lang = 'en';
-            const target_lang = 'kr';
+            const src_lang = 'kr';
+            const target_lang = 'en';
             let query = text;
             const headers = {
                 'Authorization': 'KakaoAK 445700b780464ae5f43084791c7d6ca2',
