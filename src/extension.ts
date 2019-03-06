@@ -82,28 +82,33 @@ export function activate(context: ExtensionContext) {
                             console.log('성공');
                             return res.json();
                         }
-                        if(res.status == 400){
+                        if(res.status >= 400){
                             errorRef.push({
                                 'Error': text,
                                 'Time': time
                             });
                             vswindow.showInformationMessage('단어에 특수문자가 들어갔습니다.');
+                            return res.json();
                         }
                     }
                 ).then(resJson => {
                     console.log(resJson);
                     if (resJson.translated_text[0] == '') {
-                        console.log('번역 불가');
                         resJson.translated_text[0] = ['번역이 불가능합니다 ㅠ'];
+                        errorRef.push({
+                            Korean: text,
+                            English: resJson.translated_text[0][0],
+                            Time: time
+                        });
+                    }else{
+                        successRef.push({
+                            Korean: text,
+                            English: resJson.translated_text[0][0],
+                            Time: time
+                        });
                     }
                     console.log(resJson.translated_text[0][0]);
-                    successRef.push({
-                        Korean: text,
-                        English: resJson.translated_text[0][0],
-                        Time: time
-                    });
                     editor.edit((edit: any) => edit.replace(selection_range, String(resJson.translated_text[0])));
-
                     return resJson.translated_text[0];
                 })
                 .catch((error: Error) => {

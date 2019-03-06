@@ -29,7 +29,7 @@ function activate(context) {
     }
     var minutes = String(date.getMinutes());
     if (Number(minutes) < 10) {
-        minutes = '0' + hour;
+        minutes = '0' + minutes;
     }
     var time = year + month + day + hour + minutes;
     console.log(time);
