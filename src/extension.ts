@@ -96,9 +96,8 @@ export function activate(context: ExtensionContext) {
                     if (resJson.translated_text[0] == '') {
                         resJson.translated_text[0] = ['번역이 불가능합니다 ㅠ'];
                         errorRef.push({
-                            Korean: text,
-                            English: resJson.translated_text[0][0],
-                            Time: time
+                            'Error': text,
+                            'Time': time
                         });
                     }else{
                         successRef.push({
