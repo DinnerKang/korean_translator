@@ -45,7 +45,7 @@
                 "title": "영어로 바꾸기 !",
                 "when": "editorHasSelection"
             }
-        ],
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

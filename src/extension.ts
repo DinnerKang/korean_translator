@@ -61,7 +61,13 @@ export function activate(context: ExtensionContext) {
         console.log('text:', text);
 
         translationText(editor);
+        
+        /* 파파고 API
+        function translationText(editor: string){
+            console.log(editor);
+        }*/
 
+        // 파파고로 바꿀 예정
         function translationText(editor: any) {
             const src_lang = 'kr';
             const target_lang = 'en';
