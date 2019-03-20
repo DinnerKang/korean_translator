@@ -60,27 +60,54 @@ export function activate(context: ExtensionContext) {
         }
         console.log('text:', text);
 
-        translationText(editor);
-        
-        /* 파파고 API
-        function translationText(editor: string){
-            console.log(editor);
-        }*/
 
-        // 파파고로 바꿀 예정
-        function translationText(editor: any) {
-            const src_lang = 'kr';
-            const target_lang = 'en';
+        test(text).then(
+            function(data){
+                console.log(data);
+                translationText(editor, data.langCode);
+            }
+        );
+        
+        var data = new FormData();
+        data.append("json", JSON.stringify({'query' : text}));
+
+        // papago API
+        function test(text: any){
+            return new Promise( function(resolve, reject){
+                const naver_header = {
+                    'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'X-Naver-Client-Id' : 'gBQ1QI8_eElsuFeCu8TC',
+                    'X-Naver-Client-Secret' : 'UPHmuQo2zi'
+                };
+                console.log('언어입니다 : ', text);
+                
+                let language = fetch(`https://openapi.naver.com/v1/papago/detectLangs`, {
+                    method : 'POST',
+                    headers: naver_header,
+                    body : `query=${text}`
+                }).then( res=> res.json());
+                resolve(language);
+            });
+        }
+
+        function translationText(editor:any ,langCode: any) {
+            let src_lang = 'kr';
+            let target_lang = 'en';
             let query = text;
             const headers = {
                 'Authorization': 'KakaoAK 445700b780464ae5f43084791c7d6ca2',
                 'Content-Type': 'application/json;charset=utf-8',
             };
+            if(langCode == 'en'){
+                src_lang = 'en';
+                target_lang = 'kr';
+            }
+            
             query = encodeURI(query);
             return fetch(
                 `https://kapi.kakao.com/v1/translation/translate?src_lang=${src_lang}&target_lang=${target_lang}&query=${query}`, {
                     method: 'GET',
-                    headers: headers
+                    headers: headers,
                 }).then(
                     (res: Response) => {
                         console.log('res-----', res);
