@@ -32,7 +32,6 @@ function activate(context) {
         minutes = '0' + minutes;
     }
     var time = year + month + day + hour + minutes;
-    console.log(time);
     let disposable = vscode_1.commands.registerCommand('extension.translateKorean', () => {
         const editor = vscode_1.window.activeTextEditor;
         console.log('vscode의 글씨들', editor);
@@ -47,14 +46,15 @@ function activate(context) {
             console.log('text 선택좀...');
         }
         console.log('text:', text);
-        test(text).then(function (data) {
+        // 함수 시작
+        papago(text).then(function (data) {
             console.log(data);
             translationText(editor, data.langCode);
         });
         var data = new FormData();
         data.append("json", JSON.stringify({ 'query': text }));
         // papago API
-        function test(text) {
+        function papago(text) {
             return new Promise(function (resolve, reject) {
                 const naver_header = {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -71,57 +71,47 @@ function activate(context) {
             });
         }
         function translationText(editor, langCode) {
-            let src_lang = 'kr';
-            let target_lang = 'en';
+            let source = langCode;
+            let target = 'en';
             let query = text;
-            const headers = {
-                'Authorization': 'KakaoAK 445700b780464ae5f43084791c7d6ca2',
-                'Content-Type': 'application/json;charset=utf-8',
+            const translation_headers = {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'X-Naver-Client-Id': 'qtGsWHRHuDhH5fnL4vv_',
+                'X-Naver-Client-Secret': '4CNtCk1s5p'
             };
             if (langCode == 'en') {
-                src_lang = 'en';
-                target_lang = 'kr';
+                source = 'en';
+                target = 'kr';
             }
             query = encodeURI(query);
-            return fetch(`https://kapi.kakao.com/v1/translation/translate?src_lang=${src_lang}&target_lang=${target_lang}&query=${query}`, {
-                method: 'GET',
-                headers: headers,
+            return fetch(`https://openapi.naver.com/v1/papago/n2mt`, {
+                method: 'POST',
+                headers: translation_headers,
+                body: `source=${source}&target=${target}&text=${query}`
             }).then((res) => {
                 console.log('res-----', res);
                 if (res.status == 200) {
                     console.log('성공');
                     return res.json();
                 }
-                if (res.status >= 400) {
-                    errorRef.push({
-                        'Error': text,
-                        'Time': time
-                    });
-                    vscode_1.window.showInformationMessage('단어에 특수문자가 들어갔습니다.');
-                    return res.json();
-                }
             }).then(resJson => {
-                console.log(resJson);
-                if (resJson.translated_text[0] == '') {
-                    resJson.translated_text[0] = ['번역이 불가능합니다 ㅠ'];
-                    errorRef.push({
-                        'Error': text,
-                        'Time': time
-                    });
-                }
-                else {
-                    successRef.push({
-                        Korean: text,
-                        English: resJson.translated_text[0][0],
-                        Time: time
-                    });
-                }
-                console.log(resJson.translated_text[0][0]);
-                editor.edit((edit) => edit.replace(selection_range, String(resJson.translated_text[0])));
-                return resJson.translated_text[0];
+                console.log('result', resJson);
+                var data = resJson.message.result;
+                successRef.push({
+                    'Source': source,
+                    'Text': text,
+                    'Translation': data.translatedText,
+                    'Time': time
+                });
+                editor.edit((edit) => edit.replace(selection_range, String(data.translatedText)));
             })
                 .catch((error) => {
                 console.log('실패', error);
+                errorRef.push({
+                    'Text': text,
+                    'Source': source,
+                    'Time': time
+                });
             });
         }
     });
