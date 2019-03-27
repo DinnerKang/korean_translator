@@ -25,7 +25,7 @@ Please delete it if you do not want it.
 
 현재 Naver API 를 이용한 언어 감지 및 영어로 변역 입니다.  
 한글이 아닌 다른 언어를 번역해도 영어로 결과가 나옵니다.  
-**만약 영어를 번역 시 한글로 나오는 기능도 추가했습니다.**
+### 만약 영어를 번역 시 한글로 나오는 기능도 추가했습니다.
 
 배포 후 허용량이 자주 초과되면 그 후에 수정을...해보도록하겠습니다.
 
@@ -63,6 +63,9 @@ Please delete it if you do not want it.
 [https://developers.naver.com/docs/papago/](https://developers.naver.com/docs/papago/)
 
 ## 릴리즈 노트
+
+##### 0.3.2
+ - README 수정
 
 ##### 0.3.1
  - Naver API target 오류 수정
