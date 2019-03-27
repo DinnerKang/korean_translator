@@ -1,12 +1,12 @@
 # Any Language -> English Translator
 
-변수, 함수, 클래스 이름이 영어로 생각 안날때 편하게 번역해주는 플러그인입니다.
+변수, 함수, 클래스 이름이 영어로 생각 안날때 편하게 번역해주는 플러그인입니다. 
 Variables, functions, and class names are not translated in English.
 
 #### Firebase Database 와 연동이 되었으며, 번역한 데이터를 수집 중 입니다.
 #### It is linked with Firebase Database and is collecting translated data.
 
-원하지 않으시면 삭제해주세요 ㅠ
+원하지 않으시면 삭제해주세요 ㅠ 
 Please delete it if you do not want it.
 
 **데이터 시각화 홈페이지 : [https://translator-c4119.firebaseapp.com/](https://translator-c4119.firebaseapp.com/)**

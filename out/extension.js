@@ -81,7 +81,7 @@ function activate(context) {
             };
             if (langCode == 'en') {
                 source = 'en';
-                target = 'kr';
+                target = 'ko';
             }
             query = encodeURI(query);
             return fetch(`https://openapi.naver.com/v1/papago/n2mt`, {
