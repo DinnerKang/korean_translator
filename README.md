@@ -1,13 +1,17 @@
 # Any Language -> English Translator
 
 변수, 함수, 클래스 이름이 영어로 생각 안날때 편하게 번역해주는 플러그인입니다.
+Variables, functions, and class names are not translated in English.
 
-#### Firebase Database 와 연동이 되었으며, 번역한 영어 데이터를 수집 중 입니다.
+#### Firebase Database 와 연동이 되었으며, 번역한 데이터를 수집 중 입니다.
+#### It is linked with Firebase Database and is collecting translated data.
+
 원하지 않으시면 삭제해주세요 ㅠ
+Please delete it if you do not want it.
 
 **데이터 시각화 홈페이지 : [https://translator-c4119.firebaseapp.com/](https://translator-c4119.firebaseapp.com/)**
 
-### Git Star 는 개발자에게 힘이됩니다 !!!!!!
+### Git Star is to the developer's power !!!!!!
 
 ## Features
 
@@ -59,6 +63,11 @@
 [https://developers.naver.com/docs/papago/](https://developers.naver.com/docs/papago/)
 
 ## 릴리즈 노트
+
+##### 0.3.1
+ - Naver API target 오류 수정
+ - 번역할 때 타이틀을 번역하기 ! -> Translate !!! 로 변경
+ - README 수정
 
 ##### 0.3.0
  - Naver Papago 를 이용한 언어 감지, 언어 번역 사용

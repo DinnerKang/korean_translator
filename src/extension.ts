@@ -100,7 +100,7 @@ export function activate(context: ExtensionContext) {
             };
             if(langCode == 'en'){
                 source = 'en';
-                target = 'kr';
+                target = 'ko';
             }
             
             query = encodeURI(query);

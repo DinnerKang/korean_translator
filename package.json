@@ -42,7 +42,7 @@
         "commands": [
             {
                 "command": "extension.translateKorean",
-                "title": "영어로 바꾸기 !",
+                "title": "Translate !!!",
                 "when": "editorHasSelection"
             }
         ]
