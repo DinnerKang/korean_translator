@@ -1,12 +1,12 @@
 # Any Language -> English Translator
 
-변수, 함수, 클래스 이름이 영어로 생각 안날때 편하게 번역해주는 플러그인입니다. 
+변수, 함수, 클래스 이름이 영어로 생각 안날때 편하게 번역해주는 플러그인입니다.  
 Variables, functions, and class names are not translated in English.
 
 #### Firebase Database 와 연동이 되었으며, 번역한 데이터를 수집 중 입니다.
 #### It is linked with Firebase Database and is collecting translated data.
 
-원하지 않으시면 삭제해주세요 ㅠ 
+원하지 않으시면 삭제해주세요 ㅠ  
 Please delete it if you do not want it.
 
 **데이터 시각화 홈페이지 : [https://translator-c4119.firebaseapp.com/](https://translator-c4119.firebaseapp.com/)**
@@ -23,13 +23,13 @@ Please delete it if you do not want it.
 
 ![translate](/asset/translate_1.png)
 
-현재 Naver API 를 이용한 언어 감지 및 영어로 변역 입니다.
-한글이 아닌 다른 언어를 번역해도 영어로 결과가 나옵니다.
+현재 Naver API 를 이용한 언어 감지 및 영어로 변역 입니다.  
+한글이 아닌 다른 언어를 번역해도 영어로 결과가 나옵니다.  
 **만약 영어를 번역 시 한글로 나오는 기능도 추가했습니다.**
 
 배포 후 허용량이 자주 초과되면 그 후에 수정을...해보도록하겠습니다.
 
-오픈소스 기여 목적으로 만들었습니다.
+오픈소스 기여 목적으로 만들었습니다.  
 악용은 자제 부탁드릴게요 !
 
 
