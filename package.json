@@ -2,7 +2,7 @@
     "name": "korean-translator",
     "displayName": "Korean-translator",
     "description": "한->영 번역기",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "publisher": "dinner",
     "engines": {
         "vscode": "^1.29.0"
