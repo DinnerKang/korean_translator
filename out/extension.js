@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = require("vscode");
 require("isomorphic-fetch");
 var admin = require('firebase-admin');
-var serviceAccount = require('../translator-c4119-firebase-adminsdk-ft76z-126df85c6a');
+var serviceAccount = require('../translator-c4119-firebase-adminsdk-ft76z-f94e647a4a');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://translator-c4119.firebaseio.com",
@@ -16,13 +16,11 @@ function activate(context) {
     var date = new Date();
     var year = String(date.getFullYear());
     var month = String(date.getMonth() + 1);
-    if (Number(month) < 10) {
-        month = '0' + month;
-    }
+    if (Number(month) < 10) month = '0' + month;
+    
     var day = String(date.getDate());
-    if (Number(day) < 10) {
-        day = '0' + day;
-    }
+    if (Number(day) < 10) day = '0' + day;
+    
     var hour = String(date.getHours());
     if (Number(hour) < 10) {
         hour = '0' + hour;
