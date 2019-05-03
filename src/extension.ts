@@ -24,22 +24,17 @@ export function activate(context: ExtensionContext) {
 
     var year = String(date.getFullYear());
     var month = String(date.getMonth() + 1);
-    if (Number(month) < 10) {
-        month = '0' + month;
-    }
     var day = String(date.getDate());
-    if (Number(day) < 10) {
-        day = '0' + day;
-    }
     var hour = String(date.getHours());
-    if (Number(hour) < 10) {
-        hour = '0' + hour;
-    }
-
     var minutes = String(date.getMinutes());
-    if (Number(minutes) < 10) {
-        minutes = '0' + minutes;
-    }
+    if (Number(month) < 10) month = '0' + month;
+    
+    if (Number(day) < 10) day = '0' + day;
+    
+    if (Number(hour) < 10) hour = '0' + hour;
+
+    if (Number(minutes) < 10) minutes = '0' + minutes;
+    
     var time = year + month + day + hour + minutes;
     let disposable = commands.registerCommand('extension.translateKorean', () => {
 
