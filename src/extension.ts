@@ -27,40 +27,35 @@ export function activate(context: ExtensionContext) {
     var day = String(date.getDate());
     var hour = String(date.getHours());
     var minutes = String(date.getMinutes());
-    if (Number(month) < 10) month = '0' + month;
-    
-    if (Number(day) < 10) day = '0' + day;
-    
-    if (Number(hour) < 10) hour = '0' + hour;
 
+    if (Number(month) < 10) month = '0' + month;
+    if (Number(day) < 10) day = '0' + day;
+    if (Number(hour) < 10) hour = '0' + hour;
     if (Number(minutes) < 10) minutes = '0' + minutes;
     
+    // 시간
     var time = year + month + day + hour + minutes;
+
     let disposable = commands.registerCommand('extension.translateKorean', () => {
 
         const editor = vswindow.activeTextEditor;
-        console.log('vscode의 글씨들', editor);
-        if (!editor) {
-            return;
-        }
+
+        if (!editor) return vswindow.showInformationMessage('선택된 Text가 없음.');
+
         const selections = editor.selections[0];
 
-        console.log('select 된거 정보', selections);
         const selection_range = new Range(selections.start, selections.end);
         const text = editor.document.getText(selection_range);
-        if (!text) {
-            console.log('text 선택좀...');
-        }
         console.log('text:', text);
+
 
         // 함수 시작
         papago(text).then(
             function(data: any){
-                console.log(data);
                 translationText(editor, data.langCode);
             }
         );
-        
+        // text를 papago에 보내기
         var data = new FormData();
         data.append("json", JSON.stringify({'query' : text}));
 
