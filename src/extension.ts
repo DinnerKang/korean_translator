@@ -8,7 +8,7 @@ import {
 } from 'vscode';
 import 'isomorphic-fetch';
 var admin = require('firebase-admin');
-var serviceAccount = require('../translator-c4119-firebase-adminsdk-ft76z-126df85c6a');
+var serviceAccount = require('../translator-c4119-firebase-adminsdk-ft76z-f94e647a4a.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://translator-c4119.firebaseio.com",
@@ -32,7 +32,7 @@ export function activate(context: ExtensionContext) {
     if (Number(day) < 10) day = '0' + day;
     if (Number(hour) < 10) hour = '0' + hour;
     if (Number(minutes) < 10) minutes = '0' + minutes;
-    
+
     // 시간
     var time = year + month + day + hour + minutes;
 
@@ -46,59 +46,53 @@ export function activate(context: ExtensionContext) {
 
         const selection_range = new Range(selections.start, selections.end);
         const text = editor.document.getText(selection_range);
-        console.log('text:', text);
-
-
-        // 함수 시작
-        papago(text).then(
-            function(data: any){
-                translationText(editor, data.langCode);
+        
+        // papago 언어감지 API
+        async function papago(text: any) {
+            console.log('언어 감지할 Text', text);
+            const papago_header = {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'X-Naver-Client-Id': 'gBQ1QI8_eElsuFeCu8TC',
+                'X-Naver-Client-Secret': 'UPHmuQo2zi'
+            };
+            try{
+                let language = await fetch(`https://openapi.naver.com/v1/papago/detectLangs`,{
+                                                method: 'POST',
+                                                headers: papago_header,
+                                                body: `query=${text}`})
+                                                .then(res => res.json());
+                let translate = await translationText(editor, language.langCode);
+            }catch(err){
+                errorRef.push({
+                    'Error': err,
+                    'Time': time
+                });
+                vswindow.showInformationMessage(err);
             }
-        );
-        // text를 papago에 보내기
-        var data = new FormData();
-        data.append("json", JSON.stringify({'query' : text}));
-
-        // papago API
-        function papago(text: any){
-            return new Promise( function(resolve, reject){
-                const naver_header = {
-                    'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
-                    'X-Naver-Client-Id' : 'gBQ1QI8_eElsuFeCu8TC',
-                    'X-Naver-Client-Secret' : 'UPHmuQo2zi'
-                };
-                console.log('언어입니다 : ', text);
-                
-                let language = fetch(`https://openapi.naver.com/v1/papago/detectLangs`, {
-                    method : 'POST',
-                    headers: naver_header,
-                    body : `query=${text}`
-                }).then( res=> res.json());
-                resolve(language);
-            });
         }
+        papago(text);
 
-        function translationText(editor:any ,langCode: any) {
+        function translationText(editor: any, langCode: any) {
             let source = langCode;
             let target = 'en';
             let query = text;
-            
+
             const translation_headers = {
-                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
-                    'X-Naver-Client-Id' : 'qtGsWHRHuDhH5fnL4vv_',
-                    'X-Naver-Client-Secret' : '4CNtCk1s5p'
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'X-Naver-Client-Id': 'qtGsWHRHuDhH5fnL4vv_',
+                'X-Naver-Client-Secret': '4CNtCk1s5p'
             };
-            if(langCode == 'en'){
+            if (langCode == 'en') {
                 source = 'en';
                 target = 'ko';
             }
-            
+
             query = encodeURI(query);
             return fetch(
                 `https://openapi.naver.com/v1/papago/n2mt`, {
                     method: 'POST',
                     headers: translation_headers,
-                    body : `source=${source}&target=${target}&text=${query}`
+                    body: `source=${source}&target=${target}&text=${query}`
                 }).then(
                     (res: Response) => {
                         console.log('res-----', res);
@@ -111,7 +105,7 @@ export function activate(context: ExtensionContext) {
                     console.log('result', resJson);
                     var data = resJson.message.result;
                     successRef.push({
-                        'Source' : source,
+                        'Source': source,
                         'Text': text,
                         'Translation': data.translatedText,
                         'Time': time
@@ -122,7 +116,7 @@ export function activate(context: ExtensionContext) {
                     console.log('실패', error);
                     errorRef.push({
                         'Text': text,
-                        'Source' : source,
+                        'Source': source,
                         'Time': time
                     });
                 });

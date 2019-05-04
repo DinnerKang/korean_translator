@@ -1,9 +1,17 @@
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = require("vscode");
 require("isomorphic-fetch");
 var admin = require('firebase-admin');
-var serviceAccount = require('../translator-c4119-firebase-adminsdk-ft76z-f94e647a4a');
+var serviceAccount = require('../translator-c4119-firebase-adminsdk-ft76z-f94e647a4a.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://translator-c4119.firebaseio.com",
@@ -16,58 +24,54 @@ function activate(context) {
     var date = new Date();
     var year = String(date.getFullYear());
     var month = String(date.getMonth() + 1);
-    if (Number(month) < 10) month = '0' + month;
-    
     var day = String(date.getDate());
-    if (Number(day) < 10) day = '0' + day;
-    
     var hour = String(date.getHours());
-    if (Number(hour) < 10) {
-        hour = '0' + hour;
-    }
     var minutes = String(date.getMinutes());
-    if (Number(minutes) < 10) {
+    if (Number(month) < 10)
+        month = '0' + month;
+    if (Number(day) < 10)
+        day = '0' + day;
+    if (Number(hour) < 10)
+        hour = '0' + hour;
+    if (Number(minutes) < 10)
         minutes = '0' + minutes;
-    }
+    // 시간
     var time = year + month + day + hour + minutes;
     let disposable = vscode_1.commands.registerCommand('extension.translateKorean', () => {
         const editor = vscode_1.window.activeTextEditor;
-        console.log('vscode의 글씨들', editor);
-        if (!editor) {
-            return;
-        }
+        if (!editor)
+            return vscode_1.window.showInformationMessage('선택된 Text가 없음.');
         const selections = editor.selections[0];
-        console.log('select 된거 정보', selections);
         const selection_range = new vscode_1.Range(selections.start, selections.end);
         const text = editor.document.getText(selection_range);
-        if (!text) {
-            console.log('text 선택좀...');
-        }
-        console.log('text:', text);
-        // 함수 시작
-        papago(text).then(function (data) {
-            console.log(data);
-            translationText(editor, data.langCode);
-        });
-        var data = new FormData();
-        data.append("json", JSON.stringify({ 'query': text }));
-        // papago API
+        // papago 언어감지 API
         function papago(text) {
-            return new Promise(function (resolve, reject) {
-                const naver_header = {
+            return __awaiter(this, void 0, void 0, function* () {
+                console.log('언어 감지할 Text', text);
+                const papago_header = {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                     'X-Naver-Client-Id': 'gBQ1QI8_eElsuFeCu8TC',
                     'X-Naver-Client-Secret': 'UPHmuQo2zi'
                 };
-                console.log('언어입니다 : ', text);
-                let language = fetch(`https://openapi.naver.com/v1/papago/detectLangs`, {
-                    method: 'POST',
-                    headers: naver_header,
-                    body: `query=${text}`
-                }).then(res => res.json());
-                resolve(language);
+                try {
+                    let language = yield fetch(`https://openapi.naver.com/v1/papago/detectLangs`, {
+                        method: 'POST',
+                        headers: papago_header,
+                        body: `query=${text}`
+                    })
+                        .then(res => res.json());
+                    let translate = yield translationText(editor, language.langCode);
+                }
+                catch (err) {
+                    errorRef.push({
+                        'Error': err,
+                        'Time': time
+                    });
+                    vscode_1.window.showInformationMessage(err);
+                }
             });
         }
+        papago(text);
         function translationText(editor, langCode) {
             let source = langCode;
             let target = 'en';
