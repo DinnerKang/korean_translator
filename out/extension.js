@@ -66,9 +66,8 @@ function activate(context) {
                         body: `query=${text}`
                     })
                         .then(res => res.json());
-                    if (language.langCode == 'en') {
+                    if (language.langCode == 'en')
                         target = 'ko';
-                    }
                     let translate = yield fetch(`https://openapi.naver.com/v1/papago/n2mt`, {
                         method: 'POST',
                         headers: translation_headers,

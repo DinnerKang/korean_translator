@@ -70,10 +70,8 @@ export function activate(context: ExtensionContext) {
                                             body: `query=${text}`})
                                             .then(res => res.json());
 
-                if(language.langCode == 'en'){
-                    target = 'ko';
-                }
-
+                if(language.langCode == 'en') target = 'ko';
+                
                 let translate = await fetch(`https://openapi.naver.com/v1/papago/n2mt`, {
                                             method: 'POST',
                                             headers: translation_headers,
