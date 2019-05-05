@@ -38,7 +38,7 @@ export function activate(context: ExtensionContext) {
 
     let disposable = commands.registerCommand('extension.translateKorean', () => {
 
-        const editor = vswindow.activeTextEditor;
+        let editor = vswindow.activeTextEditor;
 
         if (!editor) return vswindow.showInformationMessage('선택된 Text가 없음.');
 
@@ -46,81 +46,57 @@ export function activate(context: ExtensionContext) {
 
         const selection_range = new Range(selections.start, selections.end);
         const text = editor.document.getText(selection_range);
-        
+
+        const papago_header = {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'X-Naver-Client-Id': 'gBQ1QI8_eElsuFeCu8TC',
+            'X-Naver-Client-Secret': 'UPHmuQo2zi'
+        };
+        const translation_headers = {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'X-Naver-Client-Id': 'qtGsWHRHuDhH5fnL4vv_',
+            'X-Naver-Client-Secret': '4CNtCk1s5p'
+        };
+
         // papago 언어감지 API
-        async function papago(text: any) {
+        async function translator(text: any) {
             console.log('언어 감지할 Text', text);
-            const papago_header = {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'X-Naver-Client-Id': 'gBQ1QI8_eElsuFeCu8TC',
-                'X-Naver-Client-Secret': 'UPHmuQo2zi'
-            };
+
+            let target = 'en';
             try{
                 let language = await fetch(`https://openapi.naver.com/v1/papago/detectLangs`,{
-                                                method: 'POST',
-                                                headers: papago_header,
-                                                body: `query=${text}`})
-                                                .then(res => res.json());
-                let translate = await translationText(editor, language.langCode);
+                                            method: 'POST',
+                                            headers: papago_header,
+                                            body: `query=${text}`})
+                                            .then(res => res.json());
+
+                if(language.langCode == 'en'){
+                    target = 'ko';
+                }
+
+                let translate = await fetch(`https://openapi.naver.com/v1/papago/n2mt`, {
+                                            method: 'POST',
+                                            headers: translation_headers,
+                                            body: `source=${language.langCode}&target=${target}&text=${text}`})
+                                            .then(res=> res.json());
+                
+                await editor!.edit((edit: any) => edit.replace(selection_range, String(translate.message.result.translatedText)));
+                await successRef.push({
+                        'Source': language.langCode,
+                        'Text': text,
+                        'Translation': translate.message.result.translatedText,
+                        'Time': time
+                });
             }catch(err){
                 errorRef.push({
+                    'Text': text,
                     'Error': err,
                     'Time': time
                 });
                 vswindow.showInformationMessage(err);
             }
         }
-        papago(text);
-
-        function translationText(editor: any, langCode: any) {
-            let source = langCode;
-            let target = 'en';
-            let query = text;
-
-            const translation_headers = {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'X-Naver-Client-Id': 'qtGsWHRHuDhH5fnL4vv_',
-                'X-Naver-Client-Secret': '4CNtCk1s5p'
-            };
-            if (langCode == 'en') {
-                source = 'en';
-                target = 'ko';
-            }
-
-            query = encodeURI(query);
-            return fetch(
-                `https://openapi.naver.com/v1/papago/n2mt`, {
-                    method: 'POST',
-                    headers: translation_headers,
-                    body: `source=${source}&target=${target}&text=${query}`
-                }).then(
-                    (res: Response) => {
-                        console.log('res-----', res);
-                        if (res.status == 200) {
-                            console.log('성공');
-                            return res.json();
-                        }
-                    }
-                ).then(resJson => {
-                    console.log('result', resJson);
-                    var data = resJson.message.result;
-                    successRef.push({
-                        'Source': source,
-                        'Text': text,
-                        'Translation': data.translatedText,
-                        'Time': time
-                    });
-                    editor.edit((edit: any) => edit.replace(selection_range, String(data.translatedText)));
-                })
-                .catch((error: Error) => {
-                    console.log('실패', error);
-                    errorRef.push({
-                        'Text': text,
-                        'Source': source,
-                        'Time': time
-                    });
-                });
-        }
+        translator(text);
     });
 
     context.subscriptions.push(disposable);
