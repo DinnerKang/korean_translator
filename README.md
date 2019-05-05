@@ -64,6 +64,10 @@ Please delete it if you do not want it.
 
 ## 릴리즈 노트
 
+##### 0.3.3
+ - async & await 사용해서 코드 리팩토링
+ - 사용하지 않는 코드 삭제
+
 ##### 0.3.2
  - README 수정
 
