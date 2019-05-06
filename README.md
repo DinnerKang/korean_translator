@@ -64,6 +64,13 @@ Please delete it if you do not want it.
 
 ## 릴리즈 노트
 
+##### 0.3.4
+ - 2차 리팩토링
+ - 변수의 스코프 최대한 적게 수정
+ - 변수, 함수 이름 수정
+ - await와 then 혼용 중지
+ - any 타입 수정
+
 ##### 0.3.3
  - async & await 사용해서 코드 리팩토링
  - 사용하지 않는 코드 삭제
