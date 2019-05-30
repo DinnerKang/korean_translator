@@ -78,22 +78,32 @@ export function activate(context: ExtensionContext) {
                                             body: `source=${languageResult.langCode}&target=${target}&text=${text}`});
                 const translateResult = await translate.json();
 
-                await editor!.edit((edited: TextEditorEdit) => 
+                if(translateResult.errorMessage){
+                    vswindow.showInformationMessage(translateResult.errorMessage);
+                    throw errorRef.push({
+                        'Text': text,
+                        'Error': translateResult.errorMessage,
+                        'Time': getNowTime()
+                    });
+                    
+                }
+
+                editor!.edit((edited: TextEditorEdit) => 
                     edited.replace(selectionRange, String(translateResult.message.result.translatedText)));
 
-                await successRef.push({
+                successRef.push({
                         'Source': languageResult.langCode,
                         'Text': text,
                         'Translation': translateResult.message.result.translatedText,
                         'Time': getNowTime()
                 });
-            }catch(err){
+            }catch(e){
                 errorRef.push({
                     'Text': text,
-                    'Error': err,
+                    'Error': e,
                     'Time': getNowTime()
                 });
-                vswindow.showInformationMessage(err);
+                vswindow.showInformationMessage(e);
             }
         }
         translateWords(text);

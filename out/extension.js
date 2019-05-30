@@ -76,21 +76,29 @@ function activate(context) {
                         body: `source=${languageResult.langCode}&target=${target}&text=${text}`
                     });
                     const translateResult = yield translate.json();
-                    yield editor.edit((edited) => edited.replace(selectionRange, String(translateResult.message.result.translatedText)));
-                    yield successRef.push({
+                    if (translateResult.errorMessage) {
+                        vscode_1.window.showInformationMessage(translateResult.errorMessage);
+                        throw errorRef.push({
+                            'Text': text,
+                            'Error': translateResult.errorMessage,
+                            'Time': getNowTime()
+                        });
+                    }
+                    editor.edit((edited) => edited.replace(selectionRange, String(translateResult.message.result.translatedText)));
+                    successRef.push({
                         'Source': languageResult.langCode,
                         'Text': text,
                         'Translation': translateResult.message.result.translatedText,
                         'Time': getNowTime()
                     });
                 }
-                catch (err) {
+                catch (e) {
                     errorRef.push({
                         'Text': text,
-                        'Error': err,
+                        'Error': e,
                         'Time': getNowTime()
                     });
-                    vscode_1.window.showInformationMessage(err);
+                    vscode_1.window.showInformationMessage(e);
                 }
             });
         }
