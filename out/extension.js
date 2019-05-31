@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = require("vscode");
 require("isomorphic-fetch");
-var admin = require('firebase-admin');
+const admin = require("firebase-admin");
 var serviceAccount = require('../translator-c4119-firebase-adminsdk-ft76z-f94e647a4a.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -29,23 +29,29 @@ function activate(context) {
             let day = String(date.getDate());
             let hour = String(date.getHours());
             let minutes = String(date.getMinutes());
-            if (Number(month) < 10)
+            if (Number(month) < 10) {
                 month = '0' + month;
-            if (Number(day) < 10)
+            }
+            if (Number(day) < 10) {
                 day = '0' + day;
-            if (Number(hour) < 10)
+            }
+            if (Number(hour) < 10) {
                 hour = '0' + hour;
-            if (Number(minutes) < 10)
+            }
+            if (Number(minutes) < 10) {
                 minutes = '0' + minutes;
+            }
             const nowTime = year + month + day + hour + minutes;
             return nowTime;
         }
         let editor = vscode_1.window.activeTextEditor;
-        if (!editor)
+        if (!editor) {
             return vscode_1.window.showInformationMessage('선택된 Text가 없음.');
+        }
         const selections = editor.selections[0];
         const selectionRange = new vscode_1.Range(selections.start, selections.end);
         const text = editor.document.getText(selectionRange);
+        abuseCheck(text);
         // papago 언어감지 API
         function translateWords(text) {
             return __awaiter(this, void 0, void 0, function* () {
@@ -68,8 +74,9 @@ function activate(context) {
                         body: `query=${text}`
                     });
                     const languageResult = yield language.json();
-                    if (languageResult.langCode === 'en')
+                    if (languageResult.langCode === 'en') {
                         target = 'ko';
+                    }
                     const translate = yield fetch(`https://openapi.naver.com/v1/papago/n2mt`, {
                         method: 'POST',
                         headers: translationHeaders,
@@ -91,6 +98,7 @@ function activate(context) {
                         'Translation': translateResult.message.result.translatedText,
                         'Time': getNowTime()
                     });
+                    return;
                 }
                 catch (e) {
                     errorRef.push({
@@ -102,7 +110,37 @@ function activate(context) {
                 }
             });
         }
-        translateWords(text);
+        // 어뷰징 감지
+        function abuseCheck(text) {
+            try {
+                let check = true;
+                db.ref("translate/success").on("value", function (snapshot) {
+                    if (snapshot && check) {
+                        console.log('시작');
+                        const data = Object.values(snapshot.val());
+                        const search = data.filter(function (data) { return data.Time === getNowTime(); });
+                        if (search.length !== 0) {
+                            for (var i = 0, search_len = search.length; i < search_len; i++) {
+                                if (search[i].Text === text) {
+                                    vscode_1.window.showInformationMessage('Abuse Checking');
+                                    throw new Error();
+                                }
+                                if (i === (search_len - 1)) {
+                                    translateWords(text);
+                                }
+                            }
+                        }
+                        else {
+                            translateWords(text);
+                        }
+                        check = false;
+                    }
+                });
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
     });
     context.subscriptions.push(disposable);
 }
