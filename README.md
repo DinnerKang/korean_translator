@@ -1,4 +1,4 @@
-# 번역기
+# Translator
 
 변수, 함수, 클래스 이름이 영어로 생각 안날때 편하게 번역해주는 플러그인입니다.
 
@@ -62,6 +62,9 @@
 [https://developers.naver.com/docs/papago/](https://developers.naver.com/docs/papago/)
 
 ## 릴리즈 노트
+
+##### 0.3.6
+ - 어뷰징 방지 함수 제작
 
 ##### 0.3.5
  - 네이버 API 일일 허용량 초과 시 에러 코드 추가
