@@ -116,7 +116,6 @@ function activate(context) {
                 let check = true;
                 db.ref("translate/success").on("value", function (snapshot) {
                     if (snapshot && check) {
-                        console.log('시작');
                         const data = Object.values(snapshot.val());
                         const search = data.filter(function (data) { return data.Time === getNowTime(); });
                         if (search.length !== 0) {
