@@ -57,6 +57,7 @@
     "devDependencies": {
         "@types/mocha": "^2.2.42",
         "@types/node": "^8.10.25",
+        "fstream": "^1.0.12",
         "tar": "^4.4.8",
         "tslint": "^5.8.0",
         "typescript": "^2.6.1",
