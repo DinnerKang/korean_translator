@@ -55,13 +55,12 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "@google-cloud/storage": "^2.5.0",
         "@types/mocha": "^2.2.42",
         "@types/node": "^8.10.25",
         "fstream": "^1.0.12",
         "tar": "^4.4.8",
         "tslint": "^5.8.0",
-        "typescript": "^2.6.1",
+        "typescript": "^3.5.1",
         "vscode": "^1.1.26"
     },
     "dependencies": {
