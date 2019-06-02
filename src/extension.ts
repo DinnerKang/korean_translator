@@ -46,8 +46,11 @@ export function activate(context: ExtensionContext) {
         const selections = editor.selections[0];
         const selectionRange = new Range(selections.start, selections.end);
         const text = editor.document.getText(selectionRange);
-
-        abuseCheck(text);
+        if(!/"/.exec(text)){
+            abuseCheck(text);
+        }else{
+            vswindow.showInformationMessage('금지 문자가 포함되었습니다.');
+        }
         
         // papago 언어감지 API
         async function translateWords(text: String) {

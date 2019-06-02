@@ -51,7 +51,12 @@ function activate(context) {
         const selections = editor.selections[0];
         const selectionRange = new vscode_1.Range(selections.start, selections.end);
         const text = editor.document.getText(selectionRange);
-        abuseCheck(text);
+        if (!/"/.exec(text)) {
+            abuseCheck(text);
+        }
+        else {
+            vscode_1.window.showInformationMessage('금지 문자가 포함되었습니다.');
+        }
         // papago 언어감지 API
         function translateWords(text) {
             return __awaiter(this, void 0, void 0, function* () {
