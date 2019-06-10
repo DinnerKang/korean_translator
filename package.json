@@ -58,6 +58,7 @@
         "@types/mocha": "^2.2.42",
         "@types/node": "^8.10.25",
         "fstream": "^1.0.12",
+        "js-yaml": "^3.13.1",
         "tar": "^4.4.8",
         "tslint": "^5.8.0",
         "typescript": "^3.5.1",
