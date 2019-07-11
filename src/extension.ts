@@ -24,7 +24,6 @@ export function activate(context: ExtensionContext) {
         
         function getNowTime(){
             const date = new Date();
-
             let year = String(date.getFullYear());
             let month = String(date.getMonth() + 1);
             let day = String(date.getDate());

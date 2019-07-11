@@ -59,6 +59,7 @@
         "@types/node": "^8.10.25",
         "fstream": "^1.0.12",
         "js-yaml": "^3.13.1",
+        "lodash.merge": "^4.6.2",
         "tar": "^4.4.8",
         "tslint": "^5.8.0",
         "typescript": "^3.5.1",
