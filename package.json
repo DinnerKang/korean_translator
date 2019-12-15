@@ -2,7 +2,7 @@
     "name": "korean-translator",
     "displayName": "Korean-translator",
     "description": "한->영 번역기",
-    "version": "0.4.6",
+    "version": "0.4.7",
     "publisher": "dinner",
     "engines": {
         "vscode": "^1.29.0"
@@ -61,6 +61,7 @@
         "js-yaml": "^3.13.1",
         "lodash": "^4.17.14",
         "lodash.merge": "^4.6.2",
+        "npm": "^6.13.4",
         "tar": "^4.4.8",
         "tslint": "^5.8.0",
         "typescript": "^3.5.1",
@@ -70,7 +71,6 @@
         "event-stream": "^4.0.1",
         "firebase-admin": "^7.0.0",
         "isomorphic-fetch": "^2.2.1",
-        "npm": "^6.4.1",
         "vsce": "^1.53.2"
     }
 }
